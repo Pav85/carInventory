@@ -6,3 +6,5 @@ const carSchema = new mongoose.Schema({
   registrationNumber: { type: String, required: true },
   currentOwner: { type: String, required: true },
 });
+
+module.exports = mongoose.model("Car", carSchema);
