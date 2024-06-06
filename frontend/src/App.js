@@ -18,13 +18,14 @@ function App() {
 
   const fetchCars = async () => {
     try {
+      console.log("Fetching cars from the server...");
       const response = await axios.get("http://localhost:5000/api/cars");
+      console.log("Response data:", response.data);
       setCars(response.data);
     } catch (error) {
       console.error("Error fetching cars:", error);
     }
   };
-
   const addCar = async () => {
     try {
       await axios.post("http://localhost:5000/api/cars", newCar);

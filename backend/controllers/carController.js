@@ -46,9 +46,11 @@ exports.deleteCar = async (req, res) => {
 
 exports.getAllCars = async (req, res) => {
   try {
+    console.log("Fetching all cars...");
     const cars = await Car.find();
     res.status(200).json(cars);
   } catch (error) {
+    console.error("Error fetching cars:", error.message);
     res.status(400).json({ message: error.message });
   }
 };
