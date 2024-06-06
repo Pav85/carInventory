@@ -1,12 +1,12 @@
-const Car = require("./models/Car");
+const Car = require("../models/car");
 
 exports.addCar = async (req, res) => {
   try {
     const car = new Car(req.body);
     await car.save();
     res.status(201).json(car);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -16,34 +16,51 @@ exports.updateCar = async (req, res) => {
       new: true,
     });
     res.status(200).json(car);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
-exports.multiUpdateCar = async (req, res) => {
+exports.updateMultipleCars = async (req, res) => {
   try {
-    const updateCars = req.body;
+    const updates = req.body;
     const cars = await Promise.all(
-      updateCars.map((car) =>
-        Car.findByIdAndUpdate(updateCars.id, updateCars.data, { new: true })
+      updates.map((update) =>
+        Car.findByIdAndUpdate(update.id, update.data, { new: true })
       )
     );
     res.status(200).json(cars);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
 exports.deleteCar = async (req, res) => {
   try {
     await Car.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Car deleted successfully" });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(200).json({ message: "Car deleted" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
 exports.getAllCars = async (req, res) => {
-  console.log(req.query);
+  try {
+    const cars = await Car.find();
+    res.status(200).json(cars);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+exports.getOldCars = async (req, res) => {
+  try {
+    const yearLimit = new Date().getFullYear() - 5;
+    const cars = await Car.find({ year: { $lt: yearLimit } }).select(
+      "model make registrationNumber currentOwner"
+    );
+    res.status(200).json(cars);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
