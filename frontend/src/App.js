@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./App.css";
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -41,7 +42,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="App">
       <h1>Car Inventory</h1>
       <input
         type="text"
