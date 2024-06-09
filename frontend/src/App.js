@@ -228,7 +228,7 @@ function App() {
             className="border p-2 mb-2 flex justify-between items-center"
           >
             <span>
-              {car._id} {car.make} {car.model} {"RN: "}
+              {car.carId} {car.make} {car.model} {"RN: "}
               {car.registrationNumber} - Owner: {car.currentOwner} - Year:{" "}
               {car.year}
             </span>

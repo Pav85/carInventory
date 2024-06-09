@@ -2,10 +2,12 @@ const Car = require("../models/car");
 
 exports.addCar = async (req, res) => {
   try {
+    console.log("Request body:", req.body);
     const car = new Car(req.body);
     await car.save();
     res.status(201).json(car);
   } catch (error) {
+    console.error("Error adding car:", error.message);
     res.status(400).json({ message: error.message });
   }
 };
