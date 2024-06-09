@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+import { capitaliseFirstLetter } from "./utils/Capitalise";
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -221,26 +222,44 @@ function App() {
       >
         {showOldCars ? "Show All Cars" : "Show Cars Older Than 5 Years"}
       </button>
-      <ul>
+      <div className="cars-container">
         {cars.map((car) => (
-          <li
-            key={car._id}
-            className="border p-2 mb-2 flex justify-between items-center"
-          >
-            <span>
-              {car.carId} {car.make} {car.model} {"RN: "}
-              {car.registrationNumber} - Owner: {car.currentOwner} - Year:{" "}
-              {car.year}
-            </span>
+          <div key={car._id} className="car-box">
+            <strong className="mb-3">
+              {capitaliseFirstLetter(car.make)}{" "}
+              {capitaliseFirstLetter(car.model)}
+            </strong>
+            <hr />
+            <div className="car-details mt-2">
+              {car.carId && (
+                <>
+                  <strong>ID: </strong>
+                  {car.carId}
+                  <br />
+                </>
+              )}
+              <strong>Reg: </strong>
+              {car.registrationNumber}
+              <br />
+              <strong>Owner: </strong>
+              {capitaliseFirstLetter(car.currentOwner)}
+              <br />
+              {car.year && (
+                <>
+                  <strong>Year: </strong>
+                  {car.year}
+                </>
+              )}
+            </div>
             <button
-              className="bg-red-500 text-white p-2 rounded"
+              className="bg-red-500 text-white p-2 rounded mt-3"
               onClick={() => handleDeleteCar(car._id)}
             >
               Delete
             </button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
