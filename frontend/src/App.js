@@ -105,9 +105,9 @@ function App() {
 
   return (
     <div className="App container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Car Inventory</h1>
+      <h1 className="mb-3">Car Inventory</h1>
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Add Car</h2>
+        <h2 className="font-semibold mb-2">Add Car</h2>
         <input
           className="border p-2 mr-2 mb-2"
           type="text"
@@ -154,7 +154,7 @@ function App() {
         </button>
       </div>
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Update Car</h2>
+        <h2 className="font-semibold mb-2">Update Car</h2>
         <input
           className="border p-2 mr-2 mb-2"
           type="text"
@@ -215,7 +215,7 @@ function App() {
           Update Car
         </button>
       </div>
-      <h2 className="text-xl font-semibold mb-2">All Cars</h2>
+      <h2 className="font-semibold mb-2">All Cars</h2>
       <button
         className="bg-gray-500 text-white p-2 rounded mb-4"
         onClick={toggleCarsView}
