@@ -3,6 +3,22 @@ import axios from "axios";
 import "./App.css";
 import { capitaliseFirstLetter } from "./utils/Capitalise";
 
+const fetchCarByShortId = async (carId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/cars?carId=${carId}`
+    );
+    if (response.data && response.data.length > 0) {
+      return response.data[0];
+    } else {
+      throw new Error("Car not found");
+    }
+  } catch (error) {
+    console.error("Error fetching car by short ID:", error);
+    return null;
+  }
+};
+
 function App() {
   const [cars, setCars] = useState([]);
   const [newCar, setNewCar] = useState({
@@ -13,6 +29,7 @@ function App() {
     year: 0,
   });
   const [updateCar, setUpdateCar] = useState({
+    carId: "",
     _id: "",
     make: "",
     model: "",
@@ -73,22 +90,31 @@ function App() {
 
   const handleUpdateCar = async () => {
     try {
-      const updatedFields = Object.fromEntries(
-        Object.entries(updateCar).filter(([key, value]) => value)
-      );
-      await axios.put(
-        `http://localhost:5000/api/cars/${updateCar._id}`,
-        updatedFields
-      );
-      fetchCars();
-      setUpdateCar({
-        _id: "",
-        make: "",
-        model: "",
-        registrationNumber: "",
-        currentOwner: "",
-        year: 0,
-      });
+      const carDetails = await fetchCarByShortId(updateCar.carId);
+      if (carDetails) {
+        const updatedFields = Object.fromEntries(
+          Object.entries(updateCar).filter(
+            ([key, value]) => value && key !== "carId"
+          )
+        );
+        console.log("Updating car with data:", updatedFields); // Log the data
+        await axios.put(
+          `http://localhost:5000/api/cars/${carDetails._id}`,
+          updatedFields
+        );
+        fetchCars();
+        setUpdateCar({
+          carId: "",
+          _id: "",
+          make: "",
+          model: "",
+          registrationNumber: "",
+          currentOwner: "",
+          year: 0,
+        });
+      } else {
+        console.error("Car not found with the provided short ID");
+      }
     } catch (error) {
       console.error("Error updating car:", error);
     }
@@ -159,8 +185,10 @@ function App() {
           className="border p-2 mr-2 mb-2"
           type="text"
           placeholder="ID"
-          value={updateCar._id}
-          onChange={(e) => setUpdateCar({ ...updateCar, _id: e.target.value })}
+          value={updateCar.carId}
+          onChange={(e) =>
+            setUpdateCar({ ...updateCar, carId: e.target.value })
+          }
         />
         <input
           className="border p-2 mr-2 mb-2"
