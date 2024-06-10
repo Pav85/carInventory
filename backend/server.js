@@ -1,21 +1,23 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+// Imports
+const express = require("express"); // import express module
+const mongoose = require("mongoose"); // import mongoose to connect to MongoDB database
+const bodyParser = require("body-parser"); // import body parser to parse incoming request bodies
 const cors = require("cors");
-require("dotenv").config();
+require("dotenv").config(); // load environment variables from.env file
 
-const carRoutes = require("./routes/carRoutes");
+const carRoutes = require("./routes/carRoutes"); // import car routes
 
-const app = express();
-const port = process.env.PORT || 5000;
+const app = express(); // initialize express app
+const port = process.env.PORT || 5000; // define port to listen on
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // parse incoming request bodies as JSON
 app.use(
   cors({
     origin: "http://localhost:3000",
   })
-);
+); // enable CORS to allow cross-origin requests from the frontend
 
+// connect to MongoDB database
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -26,19 +28,17 @@ const connectDB = async () => {
   }
 };
 
+// middleware to log requests to the console
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
 
-connectDB();
+connectDB(); // connect to MongoDB database
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+app.use("/api/cars", carRoutes); // mount car routes at /api/cars
 
-app.use("/api/cars", carRoutes);
-
+// start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

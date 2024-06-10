@@ -24,17 +24,7 @@ exports.updateCar = async (req, res) => {
 };
 
 exports.updateMultipleCars = async (req, res) => {
-  try {
-    const updates = req.body;
-    const cars = await Promise.all(
-      updates.map((update) =>
-        Car.findByIdAndUpdate(update.id, update.data, { new: true })
-      )
-    );
-    res.status(200).json(cars);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+  // there will be a logic here to update multiple cars in the future development
 };
 
 exports.deleteCar = async (req, res) => {
