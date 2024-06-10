@@ -1,3 +1,4 @@
+// function to capitalise first letter of a string
 export const capitaliseFirstLetter = (string) => {
   return string
     .toLowerCase()
