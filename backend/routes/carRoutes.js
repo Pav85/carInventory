@@ -9,4 +9,4 @@ router.delete("/:id", carController.deleteCar); // delete car route
 router.get("/", carController.getAllCars); // get all cars route
 router.get("/old", carController.getOldCars); // get old cars route
 
-module.exports = router;
+module.exports = router; // export router
