@@ -49,9 +49,9 @@ function App() {
   // function to fetch all cars from the server
   const fetchCars = async () => {
     try {
-      console.log("Fetching cars from the server...");
+      console.log("Fetching cars from the server..."); // log to the console that the cars are being fetched
       const response = await axios.get("http://localhost:5000/api/cars");
-      console.log("Response data:", response.data);
+      console.log("Response data:", response.data); // log the response data to the console
       setCars(response.data);
     } catch (error) {
       console.error("Error fetching cars:", error);
