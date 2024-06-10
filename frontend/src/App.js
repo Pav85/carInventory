@@ -89,6 +89,11 @@ function App() {
   };
 
   const handleUpdateCar = async () => {
+    if (!updateCar.carId) {
+      console.error("Car ID is required to update a car");
+      alert("Car ID is required to update a car");
+      return;
+    }
     try {
       const carDetails = await fetchCarByShortId(updateCar.carId);
       if (carDetails) {
